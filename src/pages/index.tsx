@@ -1,11 +1,8 @@
-import { api } from "~/utils/api";
 import { Button } from "~/components/ui/button";
 import { Moon, Sun } from "lucide-react";
 import { useTheme } from "next-themes";
 
 export default function Home() {
-  const hello = api.post.hello.useQuery({ message: "from tRPC" });
-
   const { setTheme } = useTheme();
   return (
     <>
