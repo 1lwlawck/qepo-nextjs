@@ -11,28 +11,23 @@ type PageContainerProps = {
 export const PageContainer = forwardRef<
   HTMLElement,
   React.HTMLAttributes<HTMLElement> & PageContainerProps
->(
-  (
-    { className, children, withHeader = true, withFooter = true, ...props },
-    ref,
-  ) => {
-    return (
-      <div className="h-full w-full">
-        <HeadMetaData />
-        {withHeader && <Header />}
-        <main ref={ref} className={cn("flex flex-col", className)} {...props}>
-          {children}
-        </main>
-        {withFooter && (
+>(({ className, children, withHeader = true, ...props }, ref) => {
+  return (
+    <div className="h-full w-full">
+      <HeadMetaData />
+      {withHeader && <Header />}
+      <main ref={ref} className={cn("flex flex-col", className)} {...props}>
+        {children}
+      </main>
+      {/* {withFooter && (
           <footer className="flex min-h-16 border-t-2 bg-secondary p-4">
             <p className="w-full text-center text-muted-foreground">
               © 2025 denyfaishalard. All rights reserved
             </p>
           </footer>
-        )}
-      </div>
-    );
-  },
-);
+        )} */}
+    </div>
+  );
+});
 
 PageContainer.displayName = "PageContainer";

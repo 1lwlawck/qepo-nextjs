@@ -16,22 +16,20 @@ import { useState } from "react";
 
 type RegisterFormInnerProps = {
   onRegisterSubmit: (values: RegisterFormSchema) => void;
+  isLoading?: boolean;
 };
 
 export const RegisterFormInner = (props: RegisterFormInnerProps) => {
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call
   const form = useFormContext<RegisterFormSchema>();
 
   const [showPassword, setShowPassword] = useState<boolean>(false);
 
   return (
     <form
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
       onSubmit={form.handleSubmit(props.onRegisterSubmit)}
       className="flex flex-col gap-y-1"
     >
       <FormField
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
         control={form.control}
         name="email"
         render={({ field }) => (
@@ -46,7 +44,6 @@ export const RegisterFormInner = (props: RegisterFormInnerProps) => {
         )}
       />
       <FormField
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
         control={form.control}
         name="password"
         render={({ field }) => (
@@ -69,7 +66,7 @@ export const RegisterFormInner = (props: RegisterFormInnerProps) => {
         Show Password
       </Label>
 
-      <Button size="lg" className="mt-4 w-full">
+      <Button disabled={props.isLoading} size="lg" className="mt-4 w-full">
         Buat Akun
       </Button>
     </form>

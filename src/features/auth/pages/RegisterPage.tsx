@@ -14,17 +14,28 @@ import {
 import { Form } from "~/components/ui/form";
 import { RegisterFormInner } from "../components/RegisterFormInner";
 import { type RegisterFormSchema, registerFormSchema } from "../forms/register";
+import { api } from "~/utils/api";
+import { toast } from "sonner";
 
 const RegisterPage = () => {
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call
   const form = useForm<RegisterFormSchema>({
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call
     resolver: zodResolver(registerFormSchema),
   });
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const { mutate: registerUser, isPending: registerUserIsPending } =
+    api.auth.register.useMutation({
+      onSuccess: () => {
+        toast("Akun kamu berhasil dibuat!");
+        form.setValue("email", "");
+        form.setValue("password", "");
+      },
+      onError: () => {
+        toast.error("Ada kesalahan terjadi, coba beberapa saat lagi");
+      },
+    });
+
   const handleRegisterSubmit = (values: RegisterFormSchema) => {
-    alert("register!!");
+    registerUser(values);
   };
 
   return (
@@ -42,7 +53,10 @@ const RegisterPage = () => {
           </CardHeader>
           <CardContent>
             <Form {...form}>
-              <RegisterFormInner onRegisterSubmit={handleRegisterSubmit} />
+              <RegisterFormInner
+                isLoading={registerUserIsPending}
+                onRegisterSubmit={handleRegisterSubmit}
+              />
             </Form>
           </CardContent>
 
